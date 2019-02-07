@@ -3,6 +3,8 @@ import { TodosService } from '../shared/todos.service';
 import { Todo } from '../shared/todo';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { MessageBusService } from '../shared/message-bus.service';
+import { constantes } from '../shared/constantes';
 
 @Component({
   selector: 'app-todo-form',
@@ -18,12 +20,13 @@ export class TodoFormComponent implements OnInit {
 
   constructor(
     private todosService: TodosService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private messageBus: MessageBusService) { }
 
   ngOnInit() {
     this.todoForm.valueChanges.subscribe(data => {
       // Action réalisée à chaque changement
-      console.log(data);
+      // console.log(data);
     });
   }
 
@@ -36,7 +39,8 @@ export class TodoFormComponent implements OnInit {
     };
 
     this.todosService.add(todoToAdd).subscribe(() => {
-      // this.todos$ = this.todosService.getAll();
+      this.messageBus.addMessage(constantes.todoAddedMessage);
+      this.todoForm.reset();
     });
   }
 }

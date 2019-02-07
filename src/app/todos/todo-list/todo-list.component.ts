@@ -5,6 +5,8 @@ import { Observable, of } from 'rxjs';
 import {
   filter, switchMap
 } from 'rxjs/operators';
+import { MessageBusService } from '../shared/message-bus.service';
+import { constantes } from '../shared/constantes';
 
 @Component({
   selector: 'app-todo-list',
@@ -16,7 +18,14 @@ export class TodoListComponent implements OnInit {
   todos$: Observable<Todo[]>;
   selectedTodo: Todo;
 
-  constructor(private todosService: TodosService) {
+  constructor(
+    private todosService: TodosService,
+    private messageBus: MessageBusService) {
+      messageBus.queue$.subscribe(message => {
+        if (message === constantes.todoAddedMessage) {
+          this.todos$ = this.todosService.getAll();
+        }
+      });
   }
 
   ngOnInit() {
