@@ -1,0 +1,29 @@
+<div class="ui-g ui-fluid" style="text-align: right">
+  <form class="ui-g-12" [formGroup]="todoForm" (ngSubmit)="doAdd();">
+    <div class="ui-inputgroup">
+      <span class="ui-inputgroup-addon"><i class="pi pi-pencil"></i></span>
+      <input
+        type="text"
+        pInputText
+        placeholder="Action"
+        formControlName="action"
+      />
+    </div>
+    <div class="ui-inputgroup">
+      <p-calendar
+        dateFormat="dd/mm/yy"
+        placeholder="dd/mm/yyyy"
+        [showIcon]="true"
+        formControlName="dueDate"
+      ></p-calendar>
+    </div>
+
+    <p-button
+      label="Add"
+      styleClass="ui-button-info"
+      icon="pi pi-plus"
+      type="submit"
+      [disabled]="!todoForm.valid"
+    ></p-button>
+  </form>
+</div>
