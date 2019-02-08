@@ -44,8 +44,7 @@ export class TodoListComponent implements OnInit {
   }
 
   public doUpdate(todo: Todo): void {
-    this.todosService.update(todo).subscribe(() => {
-      this.todos$ = this.todosService.getAll();
-    });
+    this.todos$ = this.todosService.update(todo).pipe(
+      switchMap(() => this.todosService.getAll()));
   }
 }
